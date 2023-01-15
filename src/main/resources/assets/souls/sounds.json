@@ -1,0 +1,46 @@
+{
+  "soul_bottle": {
+    "sounds": [
+      {
+        "name": "souls:soul_bottle1"
+      },
+      {
+        "name": "souls:soul_bottle2"
+      },
+      {
+        "name": "souls:soul_bottle3"
+      },
+      {
+        "name": "souls:soul_bottle4"
+      },
+      {
+        "name": "souls:soul_bottle5"
+      },
+      {
+        "name": "souls:soul_bottle6"
+      },
+      {
+        "name": "souls:soul_bottle7"
+      },
+      {
+        "name": "souls:soul_bottle8"
+      },
+      {
+        "name": "souls:soul_bottle9"
+      },
+      {
+        "name": "souls:soul_bottle10"
+      },
+      {
+        "name": "souls:soul_bottle11"
+      },
+      {
+        "name": "souls:soul_bottle12"
+      },
+      {
+        "name": "souls:soul_bottle13"
+      }
+    ],
+    "subtitle": "souls.subtitle.soul_bottle"
+  }
+}

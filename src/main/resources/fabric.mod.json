@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "souls",
+  "version": "${version}",
+  "name": "Souls",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/souls/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "land.alfred.souls.client.SoulsClient"
+    ],
+    "main": [
+      "land.alfred.souls.Souls"
+    ]
+  },
+  "mixins": [
+    "souls.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.12",
+    "fabric": "*",
+    "minecraft": "1.19.3"
+  }
+}

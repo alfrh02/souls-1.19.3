@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "souls:block/soulful_pumpkin",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "souls:block/soulful_pumpkin"
+    },
+    "facing=south": {
+      "model": "souls:block/soulful_pumpkin",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "souls:block/soulful_pumpkin",
+      "y": 270
+    }
+  }
+}
