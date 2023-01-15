@@ -6,6 +6,7 @@ import land.alfred.souls.registry.SoundRegistry;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.CarvedPumpkinBlock;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -14,9 +15,6 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.potion.PotionUtil;
-import net.minecraft.potion.Potions;
-import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
@@ -26,7 +24,6 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -51,7 +48,7 @@ public class SoulBottleItem extends PotionItem {
         PlayerEntity playerEntity = context.getPlayer();
         ItemStack itemStack = context.getStack();
         BlockState blockState = world.getBlockState(blockPos);
-        if (blockState.getBlock() == BlockRegistry.SOULFUL_PUMPKIN && itemStack == new ItemStack(ItemRegistry.SOUL_BOTTLE)) {
+        if (blockState.getBlock() == Blocks.CARVED_PUMPKIN) {
             world.playSound((PlayerEntity)null, blockPos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
             playerEntity.setStackInHand(context.getHand(), ItemUsage.exchangeStack(itemStack, playerEntity, new ItemStack(Items.GLASS_BOTTLE)));
             playerEntity.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
@@ -64,8 +61,8 @@ public class SoulBottleItem extends PotionItem {
             }
 
             world.playSound((PlayerEntity)null, blockPos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.emitGameEvent((Entity)null, GameEvent.FLUID_PLACE, blockPos);
-            world.setBlockState(blockPos, BlockRegistry.SOULFUL_PUMPKIN.getDefaultState());
+            world.playSound((PlayerEntity)null, blockPos, SoundEvents.PARTICLE_SOUL_ESCAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.setBlockState(blockPos, BlockRegistry.SOULFUL_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, context.getSide()));
             return ActionResult.success(world.isClient);
         } else {
             return ActionResult.PASS;

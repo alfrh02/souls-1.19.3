@@ -18,7 +18,10 @@ public class Souls implements ModInitializer {
     private static final ItemGroup ITEM_GROUP = FabricItemGroup
             .builder(new Identifier(MODID, "item_group"))
             .icon(() -> new ItemStack(ItemRegistry.SOUL_BOTTLE))
-            .entries((enabledFeatures, entries, operatorEnabled) -> {        entries.add(ItemRegistry.SOUL_BOTTLE);     })
+            .entries((enabledFeatures, entries, operatorEnabled) -> {
+                entries.add(ItemRegistry.SOUL_BOTTLE);
+                entries.add(ItemRegistry.SOULFUL_PUMPKIN);
+            })
             .build();
 
     @Override
