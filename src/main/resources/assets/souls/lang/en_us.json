@@ -1,5 +1,6 @@
 {
-  "souls.subtitle.soul_bottle": "Souls escape from bottle",
+  "souls.subtitle.soul_bottle": "Souls escapes from bottle",
+  "block.souls.soulful_pumpkin": "Soulful Pumpkin",
   "itemGroup.souls.item_group": "Souls",
-  "item.souls.bottle_of_souls": "Soul Bottle"
+  "item.souls.soul_bottle.effect.empty": "Soul Bottle"
 }

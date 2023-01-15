@@ -4,6 +4,7 @@
   "package": "land.alfred.souls.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "GlassBottleItem"
   ],
   "client": [
   ],

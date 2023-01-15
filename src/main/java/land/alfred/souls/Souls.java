@@ -26,9 +26,9 @@ public class Souls implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        BlockRegistry.init();
         ItemRegistry.init();
         SoundRegistry.init();
-        BlockRegistry.init();
 
         FabricDefaultAttributeRegistry.register(EntityRegistry.SOULLESS_HUSK, SoullessHusk.createHostileAttributes());
     }

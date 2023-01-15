@@ -1,7 +1,7 @@
 package land.alfred.souls.registry;
 
 import land.alfred.souls.Souls;
-import land.alfred.souls.blocks.SoulsCarvedPumpkinBlock;
+import land.alfred.souls.blocks.SoulfulPumpkinBlock;
 import net.minecraft.block.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -14,17 +14,17 @@ public class BlockRegistry {
     public static Block CARVED_PUMPKIN;
 
     public static void init() {
-        SOULFUL_PUMPKIN = register(new CarvedPumpkinBlock(AbstractBlock.Settings.of(Material.GOURD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD).luminance((state) -> {
+        SOULFUL_PUMPKIN = register(new SoulfulPumpkinBlock(AbstractBlock.Settings.of(Material.GOURD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD).luminance((state) -> {
             return 10;
         })), "soulful_pumpkin");
-        //CARVED_PUMPKIN = registerOverride(new SoulsCarvedPumpkinBlock(AbstractBlock.Settings.of(Material.GOURD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD)), "carved_pumpkin");
+        //CARVED_PUMPKIN = registerVanilla(new SoulsCarvedPumpkinBlock(AbstractBlock.Settings.of(Material.GOURD, MapColor.ORANGE).strength(1.0F).sounds(BlockSoundGroup.WOOD)), "carved_pumpkin");
     }
 
     public static Block register(Block block, String name) {
         return Registry.register(Registries.BLOCK, new Identifier(Souls.MODID, name), block);
     }
 
-    public static Block registerOverride(Block block, String name) {
+    public static Block registerVanilla(Block block, String name) {
         return Registry.register(Registries.BLOCK, new Identifier("minecraft", name), block);
     }
 }
