@@ -24,6 +24,7 @@ import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -39,34 +40,6 @@ public class SoulBottleItem extends PotionItem {
     @Override
     public SoundEvent getDrinkSound() {
         return SoundRegistry.SOUL_BOTTLE;
-    }
-
-    @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos blockPos = context.getBlockPos();
-        PlayerEntity playerEntity = context.getPlayer();
-        ItemStack itemStack = context.getStack();
-        BlockState blockState = world.getBlockState(blockPos);
-        if (blockState.getBlock() == Blocks.CARVED_PUMPKIN) {
-            world.playSound((PlayerEntity)null, blockPos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            playerEntity.setStackInHand(context.getHand(), ItemUsage.exchangeStack(itemStack, playerEntity, new ItemStack(Items.GLASS_BOTTLE)));
-            playerEntity.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
-            if (!world.isClient) {
-                ServerWorld serverWorld = (ServerWorld)world;
-
-                for(int i = 0; i < 5; ++i) {
-                    serverWorld.spawnParticles(ParticleTypes.SOUL, (double)blockPos.getX() + world.random.nextDouble(), (double)(blockPos.getY() + 1), (double)blockPos.getZ() + world.random.nextDouble(), 1, 0.0, 0.0, 0.0, 1.0);
-                }
-            }
-
-            world.playSound((PlayerEntity)null, blockPos, SoundEvents.ITEM_BOTTLE_EMPTY, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.playSound((PlayerEntity)null, blockPos, SoundEvents.PARTICLE_SOUL_ESCAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.setBlockState(blockPos, BlockRegistry.SOULFUL_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, context.getSide()));
-            return ActionResult.success(world.isClient);
-        } else {
-            return ActionResult.PASS;
-        }
     }
 
     @Override
@@ -103,6 +76,6 @@ public class SoulBottleItem extends PotionItem {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-
+        // keep this empty! probably
     }
 }

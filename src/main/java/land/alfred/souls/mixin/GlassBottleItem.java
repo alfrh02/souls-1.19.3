@@ -1,55 +1,48 @@
 package land.alfred.souls.mixin;
 
-import land.alfred.souls.registry.BlockRegistry;
+import land.alfred.souls.registry.EntityRegistry;
 import land.alfred.souls.registry.ItemRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CarvedPumpkinBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.HuskEntity;
+import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsage;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+
+import static net.minecraft.entity.EntityType.ZOMBIE;
 
 @Mixin(net.minecraft.item.GlassBottleItem.class)
 public abstract class GlassBottleItem {
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos blockPos = context.getBlockPos();
-        PlayerEntity playerEntity = context.getPlayer();
-        ItemStack itemStack = context.getStack();
-        BlockState blockState = world.getBlockState(blockPos);
-        if (blockState.getBlock() == BlockRegistry.SOULFUL_PUMPKIN) {
-            playerEntity.setStackInHand(context.getHand(), ItemUsage.exchangeStack(itemStack, playerEntity, new ItemStack(ItemRegistry.SOUL_BOTTLE)));
-            playerEntity.incrementStat(Stats.USED.getOrCreateStat(itemStack.getItem()));
-            if (!world.isClient) {
-                ServerWorld serverWorld = (ServerWorld)world;
-
-                for(int i = 0; i < 5; ++i) {
-                    serverWorld.spawnParticles(ParticleTypes.SOUL, (double)blockPos.getX() + world.random.nextDouble(), (double)(blockPos.getY() + 1), (double)blockPos.getZ() + world.random.nextDouble(), 1, 0.0, 0.0, 0.0, 1.0);
-                }
-            }
-
-            world.playSound((PlayerEntity)null, blockPos, SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.playSound((PlayerEntity)null, blockPos, SoundEvents.PARTICLE_SOUL_ESCAPE, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            world.setBlockState(blockPos, Blocks.CARVED_PUMPKIN.getDefaultState().with(CarvedPumpkinBlock.FACING, context.getSide()));
-            return ActionResult.success(world.isClient);
-        } else {
-            return ActionResult.PASS;
-        }
-    }
-
     public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        if (entity.getType() == ZOMBIE) {
+            HuskEntity huskEntity = new HuskEntity(EntityType.HUSK, entity.getEntityWorld());
+            huskEntity.setHealth(entity.getHealth());
+            huskEntity.setBaby(entity.isBaby());
+            huskEntity.setCustomName(entity.getCustomName());
+            huskEntity.setPosition(entity.getPos());
+            huskEntity.setOnFire(entity.isOnFire());
+            huskEntity.setHeadYaw(entity.getHeadYaw());
+            huskEntity.setBodyYaw(entity.getBodyYaw());
+
+            user.incrementStat(Stats.USED.getOrCreateStat(Items.GLASS_BOTTLE));
+            entity.playSound(SoundEvents.PARTICLE_SOUL_ESCAPE, 4.0F, 1.0F);
+            user.setStackInHand(user.getActiveHand(), ItemUsage.exchangeStack(stack, user, new ItemStack(ItemRegistry.SOUL_BOTTLE)));
+            user.playSound(SoundEvents.ITEM_BOTTLE_FILL_DRAGONBREATH, 1.0F, 1.0F);
+            entity.world.spawnEntity(huskEntity);
+            entity.remove(Entity.RemovalReason.DISCARDED);
+
+            huskEntity.setCustomName(Text.of("Soulless Husk"));
+            huskEntity.setCustomNameVisible(true);
+        }
         return ActionResult.PASS;
     }
 }

@@ -21,6 +21,7 @@ public class Souls implements ModInitializer {
             .entries((enabledFeatures, entries, operatorEnabled) -> {
                 entries.add(ItemRegistry.SOUL_BOTTLE);
                 entries.add(ItemRegistry.SOULFUL_PUMPKIN);
+                entries.add(ItemRegistry.SOUL_CAGE);
             })
             .build();
 

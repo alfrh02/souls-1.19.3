@@ -14,16 +14,18 @@ public class ItemRegistry {
     public static Item GLASS_BOTTLE;
 
     public static BlockItem SOULFUL_PUMPKIN;
+    public static BlockItem SOUL_CAGE;
 
     public static void init() {
         // Mod Items //
         SOUL_BOTTLE = registerItem(new SoulBottleItem(new Item.Settings().
                 recipeRemainder(Items.GLASS_BOTTLE)
-                .maxCount(16)),
+                .maxCount(1)),
                 "soul_bottle");
 
         // Mod BlockItems //
         SOULFUL_PUMPKIN = registerBlockItem(new BlockItem(BlockRegistry.SOULFUL_PUMPKIN, new Item.Settings().recipeRemainder(Items.CARVED_PUMPKIN)), "soulful_pumpkin");
+        SOUL_CAGE = registerBlockItem(new BlockItem(BlockRegistry.SOUL_CAGE, new Item.Settings()), "soul_cage");
     }
 
     public static Item registerItem(Item item, String name) {
